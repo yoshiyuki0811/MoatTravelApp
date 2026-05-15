@@ -1,0 +1,40 @@
+package com.example.moattravel.form;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.Data;
+
+@Data
+public class HouseRegisterForm {
+
+	@NotBlank(message = "民宿名を入力してください。")
+	private String name;
+
+	private MultipartFile imadeFile;
+
+	@NotBlank(message = "説明の入力してください。")
+	private String description;
+
+	@NotNull(message = "宿泊料金を入力してください")
+	@Min(value = 1, message = "宿泊料金は１円以上で入力してください。")
+	private Integer price;
+
+	@NotNull(message = "定員を入力してください。")
+	@Min(value = 1, message = "定員は一人以上で入力してください。")
+	private Integer capcity;
+
+	@NotBlank(message = "郵便番号を入力してください。")
+	private String postalCode;
+
+	@NotBlank(message = "住所を入力してください。")
+	private String address;
+
+	@NotBlank(message = "電話番号を入力してください。")
+
+	private String phoneNumber;
+
+}
