@@ -24,62 +24,79 @@
         </nav>
 
 		<main>
-		                <div class="container pt-4 pb-5 moattravel-container">
-		                    <div class="row justify-content-center">
-		                        <div class="col-xxl-9 col-xl-10 col-lg-11">
+		    <div class="container pt-4 pb-5 moattravel-container">
+		        <div class="row justify-content-center">
+		            <div class="col-xxl-9 col-xl-10 col-lg-11">
+		                
+		                <h1 class="mb-4 text-center">民宿一覧</h1>   
+		                
+		                <!-- 検索フォームと登録ボタンの配置エリア（重複を解消） -->
+		                <div class="d-flex justify-content-between align-items-end flex-wrap">
+		                    <form method="get" th:action="@{/admin/houses}" class="mb-3">
+		                        <div class="input-group">
+		                            <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="民宿名">
+		                            <button type="submit" class="btn text-white shadow-sm moattravel-btn">検索</button> 
+		                        </div>               
+		                    </form>                                
+		                    
+		                    <a href="#" class="btn text-white shadow-sm mb-3 moattravel-btn">登録</a>
+		                </div>                                                          
+		                
+		                <!-- 一覧テーブル -->
+		                <table class="table">
+		                    <thead>
+		                        <tr>
+		                            <th scope="col">ID</th>
+		                            <th scope="col">民宿名</th>
+		                            <th scope="col">郵便番号</th>
+		                            <th scope="col">住所</th>
+		                            <th scope="col">電話番号</th>
+		                            <th scope="col"></th>                                        
+		                        </tr>
+		                    </thead>   
+		                    <tbody>                                                     
+		                        <tr th:each="house : ${housePage}">
+		                            <td th:text="${house.getId()}"></td>
+		                            <td th:text="${house.getName()}"></td>
+		                            <td th:text="${house.getPostalCode()}"></td>
+		                            <td th:text="${house.getAddress()}"></td>
+		                            <td th:text="${house.getPhoneNumber()}"></td>
+		                            <td><a href="#">詳細</a></td>                                                                                                                 
+		                        </tr>                                      
+		                    </tbody>
+		                </table> 
+		                
+		                <!-- ページネーション（重複を整理） -->
+		                <div th:if="${housePage.getTotalPages() > 1}" class="d-flex justify-content-center">
+		                    <nav aria-label="民宿一覧ページ">
+		                        <ul class="pagination">
 		                            
-		                            <h1 class="mb-4 text-center">民宿一覧</h1>   
+		                            <!-- 「前」ボタン -->
+		                            <li class="page-item">
+		                                <span th:if="${housePage.isFirst()}" class="page-link disabled">前</span>
+		                                <!-- キーワードの有無に関わらず、この1行でURLパラメータを正しく生成できます -->
+		                                <a th:unless="${housePage.isFirst()}" th:href="@{/admin/houses(page = ${housePage.getNumber() - 1}, keyword = ${keyword})}" class="page-link moattravel-page-link">前</a>
+		                            </li>
 		                            
-		                            <div class="d-flex justify-content-end">                                
-		                                <a href="#" class="btn text-white shadow-sm mb-3 moattravel-btn">登録</a>
-		                            </div>                                                                                
+		                            <!-- ページ番号ボタン -->
+		                            <li th:each="i : ${#numbers.sequence(0, housePage.getTotalPages() - 1)}" class="page-item">
+		                                <span th:if="${i == housePage.getNumber()}" class="page-link active moattravel-active" th:text="${i + 1}"></span>
+		                                <a th:unless="${i == housePage.getNumber()}" th:href="@{/admin/houses(page = ${i}, keyword = ${keyword})}" class="page-link moattravel-page-link" th:text="${i + 1}"></a>
+		                            </li>
 		                            
-		                            <table class="table">
-		                                <thead>
-		                                    <tr>
-		                                        <th scope="col">ID</th>
-		                                        <th scope="col">民宿名</th>
-		                                        <th scope="col">郵便番号</th>
-		                                        <th scope="col">住所</th>
-		                                        <th scope="col">電話番号</th>
-		                                        <th scope="col"></th>                                        
-		                                    </tr>
-		                                </thead>   
-		                                <tbody>                                                 
-		                                    <tr th:each="house : ${housePage}">
-		                                        <td th:text="${house.getId()}"></td>
-		                                        <td th:text="${house.getName()}"></td>
-		                                        <td th:text="${house.getPostalCode()}"></td>
-		                                        <td th:text="${house.getAddress()}"></td>
-		                                        <td th:text="${house.getPhoneNumber()}"></td>
-		                                        <td><a href="#">詳細</a></td>                                                                                                                
-		                                    </tr>                                      
-		                                </tbody>
-		                            </table> 
+		                            <!-- 「次」ボタン -->
+		                            <li class="page-item">                        
+		                                <span th:if="${housePage.isLast()}" class="page-link disabled">次</span>
+		                                <a th:unless="${housePage.isLast()}" th:href="@{/admin/houses(page = ${housePage.getNumber() + 1}, keyword = ${keyword})}" class="page-link moattravel-page-link">次</a>
+		                            </li>
 		                            
-		                            <!-- ページネーション -->
-		                            <div th:if="${housePage.getTotalPages() > 1}" class="d-flex justify-content-center">
-		                                <nav aria-label="民宿一覧ページ">
-		                                    <ul class="pagination">
-		                                        <li class="page-item">
-		                                            <span th:if="${housePage.isFirst()}" class="page-link disabled">前</span>
-		                                            <a th:unless="${housePage.isFirst()}" th:href="@{/admin/houses(page = ${housePage.getNumber() - 1})}" class="page-link moattravel-page-link">前</a>
-		                                        </li>
-		                                        <li th:each="i : ${#numbers.sequence(0, housePage.getTotalPages() - 1)}" class="page-item">
-		                                            <span th:if="${i == housePage.getNumber()}" class="page-link active moattravel-active" th:text="${i + 1}"></span>
-		                                            <a th:unless="${i == housePage.getNumber()}" th:href="@{/admin/houses(page = ${i})}" class="page-link moattravel-page-link" th:text="${i + 1}"></a>
-		                                        </li>
-		                                        <li class="page-item">                        
-		                                            <span th:if="${housePage.isLast()}" class="page-link disabled">次</span>
-		                                            <a th:unless="${housePage.isLast()}" th:href="@{/admin/houses(page = ${housePage.getNumber() + 1})}" class="page-link moattravel-page-link">次</a>
-		                                        </li>
-		                                    </ul>
-		                                </nav> 
-		                            </div>                                                                                
-		                        </div>
-		                    </div>
-		                </div>              
-		            </main>
+		                        </ul>
+		                    </nav> 
+		                </div>                                                                                                
+		            </div>
+		        </div>
+		    </div>              
+		</main>
 
         <!-- フッター -->
         <footer>
