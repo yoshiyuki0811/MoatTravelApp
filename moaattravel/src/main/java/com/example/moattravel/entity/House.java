@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="house")
+@Table(name="houses")
 @Data
 public class House {
 	@Id
