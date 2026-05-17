@@ -11,24 +11,28 @@
         <div class="moattravel-wrapper">
             <!-- ヘッダー -->
             <div th:replace="~{fragment :: header}"></div>
-		<main>
-		    <div class="container pt-4 pb-5 moattravel-container">
-		        <div class="row justify-content-center">
-		            <div class="col-xxl-9 col-xl-10 col-lg-11">
-		                
-		                <h1 class="mb-4 text-center">民宿一覧</h1>   
-		                
-		                <!-- 検索フォームと登録ボタンの配置エリア（重複を解消） -->
-		                <div class="d-flex justify-content-between align-items-end flex-wrap">
-		                    <form method="get" th:action="@{/admin/houses}" class="mb-3">
-		                        <div class="input-group">
-		                            <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="民宿名">
-		                            <button type="submit" class="btn text-white shadow-sm moattravel-btn">検索</button> 
-		                        </div>               
-		                    </form>                                
-		                    
-		                    <a href="#" class="btn text-white shadow-sm mb-3 moattravel-btn">登録</a>
-		                </div>                                                          
+			<main>
+			    <div class="container pt-4 pb-5 moattravel-container">
+			        <div class="row justify-content-center">
+			            <div class="col-xxl-9 col-xl-10 col-lg-11">
+			                
+			                <h1 class="mb-4 text-center">民宿一覧</h1>   
+			                
+			                <div class="d-flex justify-content-between align-items-end flex-wrap">
+			                    <form method="get" th:action="@{/admin/houses}" class="mb-3">
+			                        <div class="input-group">
+			                            <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="民宿名">
+			                            <button type="submit" class="btn text-white shadow-sm moattravel-btn">検索</button> 
+			                        </div>               
+			                    </form>                                                
+			                                                           
+			                    <!-- 正しいThymeleafリンクのみを残す -->
+			                    <a th:href="@{/admin/houses/register}" class="btn text-white shadow-sm mb-3 moattravel-btn">登録</a>                                
+			                </div> 
+			            </div>
+			        </div>
+			    </div>
+			</main>                                           
 		                
 		                <!-- 一覧テーブル -->
 		                <table class="table">

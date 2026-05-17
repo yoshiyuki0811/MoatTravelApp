@@ -14,9 +14,9 @@ public class HouseRegisterForm {
 	@NotBlank(message = "民宿名を入力してください。")
 	private String name;
 
-	private MultipartFile imadeFile;
+	private MultipartFile imageFile;
 
-	@NotBlank(message = "説明の入力してください。")
+	@NotBlank(message = "説明を入力してください。")
 	private String description;
 
 	@NotNull(message = "宿泊料金を入力してください")
@@ -25,7 +25,7 @@ public class HouseRegisterForm {
 
 	@NotNull(message = "定員を入力してください。")
 	@Min(value = 1, message = "定員は一人以上で入力してください。")
-	private Integer capcity;
+	private Integer capacity;
 
 	@NotBlank(message = "郵便番号を入力してください。")
 	private String postalCode;
