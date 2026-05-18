@@ -93,4 +93,32 @@ footer {
     max-width: 1200px;
   }
 }
+.moattravel-link-danger {
+  color: #f2594b;
+}
+
+.moattravel-link-danger:hover {
+  color: #a63c3c;
+}
+
+.moattravel-btn-danger {
+  background-color: #f2594b !important;
+  transition: 0.1s;
+}
+
+.moattravel-btn-danger:hover {
+  opacity: 0.8;   
+}
+
+/* ドロップダウンアイテムのアクティブ（クリック時）の背景色を設定 */
+.moattravel-dropdown-item:active {
+  background-color: #5196a6 !important;
+}
+
+/* レスポンシブ対応（画面幅1400px以上でのコンテナ最大幅） */
+@media screen and (min-width: 1400px) {
+  .moattravel-container {
+    max-width: 1200px;
+  }
+}
 
