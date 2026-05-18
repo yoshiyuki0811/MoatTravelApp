@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.moattravel.entity.House;
+import com.example.moattravel.form.HouseEditForm;
 import com.example.moattravel.form.HouseRegisterForm;
 import com.example.moattravel.repository.HouseRepository;
 
@@ -24,7 +25,7 @@ public class HouseService {
 	private final HouseRepository houseRepository;
 
 	@Transactional
-	public House create(HouseRegisterForm houseRegisterForm) {
+	public void create(HouseRegisterForm houseRegisterForm) {
 	
 		House house = new House();
 		
@@ -60,9 +61,33 @@ public class HouseService {
 
 		house.setPhoneNumber(houseRegisterForm.getPhoneNumber());
 
-		return houseRepository.save(house);
+		houseRepository.save(house);
 
 	}
+	@Transactional
+    public void update(HouseEditForm houseEditForm) {
+        House house = houseRepository.getReferenceById(houseEditForm.getId());
+        MultipartFile imageFile = houseEditForm.getImageFile();
+
+        if (!imageFile.isEmpty()) {
+            String imageName = imageFile.getOriginalFilename(); 
+            String hashedImageName = generateNewName(imageName);
+            Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+            copyImageFile(imageFile, filePath);
+            house.setImageName(hashedImageName);
+        }
+
+        house.setName(houseEditForm.getName());                
+        house.setDescription(houseEditForm.getDescription());
+        house.setPrice(houseEditForm.getPrice());
+        house.setCapacity(houseEditForm.getCapacity());
+        house.setPostalCode(houseEditForm.getPostalCode());
+        house.setAddress(houseEditForm.getAddress());
+        house.setPhoneNumber(houseEditForm.getPhoneNumber());
+                     
+        houseRepository.save(house);
+    }    
+
 	
 	//UUIDをつかって生成したfile名を返す
 	
@@ -90,4 +115,7 @@ public class HouseService {
 		}
 	}
 	
+ 
+
+   
 }
