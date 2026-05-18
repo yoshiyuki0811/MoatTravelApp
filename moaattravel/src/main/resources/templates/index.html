@@ -16,17 +16,22 @@
             <!-- ヘッダー -->
             <div th:replace="~{fragment :: header}"></div>
              
-            <main>
-                <div class="container pt-4 pb-5 moattravel-container">
-                    <div th:if="${param.loggedIn}" class="alert alert-info">
-                        ログインしました。
-                    </div>  
-                     
-                    <div th:if="${param.loggedOut}" class="alert alert-info">
-                        ログアウトしました。
-                    </div>
-                </div>
-            </main>
+			<main>
+			    <div class="container pt-4 pb-5 moattravel-container">
+			        <!-- ログイン時のメッセージ -->
+			        <div th:if="${param.loggedIn}" class="alert alert-info">
+			            ログインしました。
+			        </div>  
+			        
+			        <!-- ログアウト時のメッセージ -->
+			        <div th:if="${param.loggedOut}" class="alert alert-info">
+			            ログアウトしました。
+			        </div>
+			        
+			        <!-- 会員登録完了などのフラッシュメッセージ（spanを削ってシンプルに） -->
+			        <div th:if="${successMessage}" class="alert alert-info" th:text="${successMessage}"></div>                    
+			    </div>
+			</main>
              
             <!-- フッター -->
             <div th:replace="~{fragment :: footer}"></div>
