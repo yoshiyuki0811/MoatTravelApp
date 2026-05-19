@@ -24,7 +24,7 @@ public class WebSecurityConfig {
 	            // 2. 管理者にのみアクセスを許可するURL
 	            .requestMatchers("/admin/**").hasRole("ADMIN")
 	            
-	            // 【追加】3. 会員情報ページは、一般ユーザー(GENERAL)または管理者(ADMIN)にアクセスを許可
+	            // 3. 会員情報ページは、一般ユーザー(GENERAL)または管理者(ADMIN)にアクセスを許可
 	            .requestMatchers("/user/**").hasAnyRole("GENERAL", "ADMIN")
 	            
 	            // 4. 上記以外のURLはログインが必要

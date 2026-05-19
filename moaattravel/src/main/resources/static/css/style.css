@@ -1,13 +1,20 @@
+/* ==========================================
+   1. 基本設定 (HTML / Body)
+   ========================================== */
 html {
   font-size: 14px;
 }
 
 body {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;  
 }
 
 h1 {
   font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
 }
 
 a {
@@ -15,21 +22,19 @@ a {
   text-decoration: none !important;
 }
 
-a:hover {
-  color: #407784;
-}
 
-footer {
-  width: 100%;
-  height: 60px;
-  background-color: #f8f9fa;
-}
-
+/* ==========================================
+   2. レイアウト・共通パーツ (Wrapper / Navbar / Footer)
+   ========================================== */
 .moattravel-wrapper {
   min-height: 100vh;
   position: relative;
   padding-bottom: 60px;
   box-sizing: border-box;
+}
+
+.moattravel-container {
+  max-width: 1080px;
 }
 
 .moattravel-navbar {
@@ -40,6 +45,16 @@ footer {
   height: 30px;
 }
 
+footer {
+  width: 100%;
+  height: 60px;
+  background-color: #f8f9fa;
+}
+
+
+/* ==========================================
+   3. 通常ボタン・UIパーツ (通常系)
+   ========================================== */
 .moattravel-btn {
   background-color: #5196a6 !important;
   transition: 0.3s;
@@ -49,50 +64,19 @@ footer {
   background-color: #407784 !important;
 }
 
-.moattravel-container {
-  max-width: 1080px;
-}
 .moattravel-active {
   background-color: #5196a6 !important;
   border-color: #5196a6 !important;
 }
 
-.moattravel-pre-wrap {
-  white-space: pre-wrap;
+.moattravel-dropdown-item:active {
+  background-color: #5196a6;
 }
 
-@media screen and (min-width: 1400px) {
-  .moattravel-container {
-    max-width: 1200px;
-  }
-}
-.moattravel-pre-wrap {
-  /* 改行文字で行を折り返す */
-  white-space: pre-wrap;
-}
 
-.moattravel-link-danger {
-    color: #f2594b;
-}
-
-.moattravel-link-danger:hover {
-    color: #a63c3c;
-}
-
-.moattravel-btn-danger {
-    background-color: #f2594b !important;
-    transition: 0.1s;
-}
-
-.moattravel-btn-danger:hover {
-  opacity: 0.8;   
-}
-
-@media screen and (min-width: 1400px) {
-  .moattravel-container {
-    max-width: 1200px;
-  }
-}
+/* ==========================================
+   4. 危険・削除系パーツ (Danger)
+   ========================================== */
 .moattravel-link-danger {
   color: #f2594b;
 }
@@ -110,15 +94,35 @@ footer {
   opacity: 0.8;   
 }
 
-/* ドロップダウンアイテムのアクティブ（クリック時）の背景色を設定 */
-.moattravel-dropdown-item:active {
-  background-color: #5196a6 !important;
+
+/* ==========================================
+   5. 民宿カード・個別パーツ
+   ========================================== */
+.moattravel-card-link {
+  transition: 0.3s;
+}
+ 
+.moattravel-card-link:hover {
+  opacity: 0.7;
+}
+ 
+.moattravel-horizontal-card-image {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
 }
 
-/* レスポンシブ対応（画面幅1400px以上でのコンテナ最大幅） */
+.moattravel-pre-wrap {
+  /* 改行文字で行を折り返す */
+  white-space: pre-wrap;
+}
+
+
+/* ==========================================
+   6. 画面幅によるレスポンシブ設定 (最下部に配置)
+   ========================================== */
 @media screen and (min-width: 1400px) {
   .moattravel-container {
     max-width: 1200px;
   }
 }
-
