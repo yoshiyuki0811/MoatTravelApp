@@ -74,6 +74,8 @@ public class AuthController {
     	
     	String requestUrl = new String(httpServletRequest.getRequestURI());
     	
+    	signupEventPublisher.publishSignupEvent(createdUser, requestUrl);
+    	
     	redirectAttributes.addFlashAttribute("successMessage", "ご入力いただいたメールアドレスに認証メールを送信しました。"
     			+ "メールに記載されているリンクをクリックし、会員登録を完了してください。");
     	
@@ -83,7 +85,7 @@ public class AuthController {
     	
     	
     }
-    @GetMapping
+    @GetMapping("/verify")
     public String verify(@RequestParam(name="token")String token, Model model) {
     	
     	VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
