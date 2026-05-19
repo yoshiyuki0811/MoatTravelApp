@@ -13,47 +13,66 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.moattravel.entity.House;
 import com.example.moattravel.repository.HouseRepository;
 
-import lombok.RequiredArgsConstructor;
-
 @Controller
 @RequestMapping("/houses")
-@RequiredArgsConstructor
 public class HouseController {
-
-	private final HouseRepository houseRepository;
-//民宿一覧取得機能
-	@GetMapping
-	public String index(@RequestParam(name = "keyword", required = false) String keyword,
-			@RequestParam(name = "area", required = false) String area,
-			@RequestParam(name = "price", required = false) Integer price,
-			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
-			Model model) {
-
-		Page<House> housePage;
-
-		if (keyword != null && !keyword.isEmpty()) {
-
-			housePage = houseRepository.findByNameLikeOrAddressLike("%" + keyword + "%", "%" + keyword + "%", pageable);
-
-		} else if (area != null && !area.isEmpty()) {
-			housePage = houseRepository.findByAddressLike("%" + area + "%", pageable);
-
-		} else if (price != null) {
-			housePage = houseRepository.findByPriceLessThanEqual(price, pageable);
-		} else {
-			housePage = houseRepository.findAll(pageable);
-		}
-
-		model.addAttribute("housePage", housePage);
-
-		model.addAttribute("keyword", keyword);
-
-		model.addAttribute("area", area);
-
-		model.addAttribute("price", price);
-
-		return "houses/index";
-
-	}
-
+    
+    private final HouseRepository houseRepository;        
+    
+    public HouseController(HouseRepository houseRepository) {
+        this.houseRepository = houseRepository;            
+    }     
+  
+    @GetMapping
+    public String index(@RequestParam(name = "keyword", required = false) String keyword,
+                        @RequestParam(name = "area", required = false) String area,
+                        @RequestParam(name = "price", required = false) Integer price,  
+                        @RequestParam(name = "order", required = false) String order,
+                        @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
+                        Model model) 
+    {
+        Page<House> housePage;
+                
+        // 民宿名または目的地での検索
+        if (keyword != null && !keyword.isEmpty()) {
+            if (order != null && order.equals("priceAsc")) {
+                housePage = houseRepository.findByNameLikeOrAddressLikeOrderByPriceAsc("%" + keyword + "%", "%" + keyword + "%", pageable);
+            } else {
+                housePage = houseRepository.findByNameLikeOrAddressLikeOrderByCreatedAtDesc("%" + keyword + "%", "%" + keyword + "%", pageable);
+            }            
+        
+        // エリアでの検索
+        } else if (area != null && !area.isEmpty()) {
+            if (order != null && order.equals("priceAsc")) {
+                housePage = houseRepository.findByAddressLikeOrderByPriceAsc("%" + area + "%", pageable);
+            } else {
+                housePage = houseRepository.findByAddressLikeOrderByCreatedAtDesc("%" + area + "%", pageable);
+            }            
+        
+        // 予算での検索
+        } else if (price != null) {
+            if (order != null && order.equals("priceAsc")) {
+                housePage = houseRepository.findByPriceLessThanEqualOrderByPriceAsc(price, pageable);
+            } else {
+                housePage = houseRepository.findByPriceLessThanEqualOrderByCreatedAtDesc(price, pageable);
+            }            
+        
+        // すべてのデータを取得（初期表示など）
+        } else {
+            if (order != null && order.equals("priceAsc")) {
+                housePage = houseRepository.findAllByOrderByPriceAsc(pageable);
+            } else {
+                housePage = houseRepository.findAllByOrderByCreatedAtDesc(pageable);   
+            }            
+        }                
+        
+        
+        model.addAttribute("housePage", housePage);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("area", area);
+        model.addAttribute("price", price);
+        model.addAttribute("order", order);
+        
+        return "houses/index";
+    }
 }
