@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">    
+    <head>
+        <!-- 各種フラグメントの読み込み（メタデータ、スタイル） -->
+        <div th:replace="~{fragment :: meta}"></div>   
+        <div th:replace="~{fragment :: styles}"></div>
+        <title>メール認証</title>   
+    </head>
+    <body>
+        <div class="moattravel-wrapper">
+            <!-- ヘッダー -->
+            <div th:replace="~{fragment :: header}"></div>
+             
+            <main>
+                <div class="container pt-4 pb-5 moattravel-container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-5 col-lg-6 col-md-8">  
+                             
+                            <!-- 成功メッセージ -->
+                            <div th:if="${successMessage}" class="alert alert-info" role="alert">
+                                <span th:text="${successMessage}">認証に成功しました。</span>
+                            </div> 
+                             
+                            <!-- エラーメッセージ -->
+                            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                                <span th:text="${errorMessage}">エラーが発生しました。</span>
+                            </div>
+                             
+                        </div>
+                    </div>
+                </div>
+            </main>
+             
+            <!-- フッター -->
+            <div th:replace="~{fragment :: footer}"></div>
+        </div>    
+         
+        <!-- スクリプトの読み込み -->
+        <div th:replace="~{fragment :: scripts}"></div>  
+    </body>
+</html>

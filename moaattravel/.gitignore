@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### User Custom Settings ###
+# パスワードが書いてある設定ファイルをGitの管理から除外
+src/main/resources/application.properties
