@@ -27,6 +27,10 @@ public class ReservationController {
 	@GetMapping
 	public String index(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC)Pageable pageable, Model model) {
 		
+		// ログイン状態を安全にチェック
+        if (userDetailsImpl == null) {
+            return "redirect:/login";
+        }
 		User user =userDetailsImpl.getUser();
 		
 		Page<Reservation> reservationPage = reservationRepository.findByUserOrderByCreatedAtDesc(user, pageable);
