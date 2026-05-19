@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.moattravel.entity.Role;
 import com.example.moattravel.entity.User;
 import com.example.moattravel.form.SignupForm;
+import com.example.moattravel.form.UserEditForm;
 import com.example.moattravel.repository.RoleRepository;
 import com.example.moattravel.repository.UserRepository;
 
@@ -40,6 +41,25 @@ public class UserService {
 
 		return userRepository.save(user);
 	}
+	
+	@Transactional
+	public void update(UserEditForm userEditForm) {
+		
+		User user =userRepository.getReferenceById(userEditForm.getId());
+		
+		user.setName(userEditForm.getName());
+	    user.setFurigana(userEditForm.getFurigana());
+	    user.setPostalCode(userEditForm.getPostalCode());
+	    user.setAddress(userEditForm.getAddress());
+	    user.setPhoneNumber(userEditForm.getPhoneNumber());
+	    user.setEmail(userEditForm.getEmail());
+	    
+	    userRepository.save(user);
+	    
+	    
+		
+		
+	}
 
 	//メールアドレスが登録済みはチェックする
 	public boolean isEmailRegistered(String email) {
@@ -55,6 +75,13 @@ public class UserService {
 		return password.equals(passwordConfirmation);
 
 	}
+	
+	public boolean isEmailChanged(UserEditForm userEditForm) {
+		
+		User currentUser = userRepository.getReferenceById(userEditForm.getId());
+		
+		return !userEditForm.getEmail().equals(currentUser.getEmail());
+	}
 
 	
 	@Transactional
@@ -63,4 +90,6 @@ public class UserService {
 	
 	userRepository.save(user);
 	}
+	
+	
 }

@@ -18,11 +18,16 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
 	        .authorizeHttpRequests((requests) -> requests                
-	            // 静的リソース、トップページ、および会員登録関連のURLをすべての人に許可
+	            // 1. 静的リソース、トップページ、および会員登録関連のURLをすべての人に許可
 	            .requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**").permitAll()           
-	            // 管理者にのみアクセスを許可するURL
+	            
+	            // 2. 管理者にのみアクセスを許可するURL
 	            .requestMatchers("/admin/**").hasRole("ADMIN")
-	            // 上記以外のURLはログインが必要（会員または管理者のどちらでもOK）
+	            
+	            // 【追加】3. 会員情報ページは、一般ユーザー(GENERAL)または管理者(ADMIN)にアクセスを許可
+	            .requestMatchers("/user/**").hasAnyRole("GENERAL", "ADMIN")
+	            
+	            // 4. 上記以外のURLはログインが必要
 	            .anyRequest().authenticated()
 	        )
 	        .formLogin((form) -> form
