@@ -9,7 +9,7 @@ public class ReservationRegisterForm {
 	
 	private Integer houseId;
 	
-	private Integer usreId;
+	private Integer userId;
 	
 	private String checkinDate;
 	

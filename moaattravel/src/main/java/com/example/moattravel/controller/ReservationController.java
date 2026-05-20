@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.moattravel.entity.House;
@@ -31,7 +31,6 @@ import com.example.moattravel.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
 	
@@ -39,7 +38,7 @@ public class ReservationController {
 	private final HouseRepository houseRepository;
 	private final ReservationService reservationService;
 	
-	@GetMapping
+	@GetMapping("/reservations")
 	public String index(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC)Pageable pageable, Model model) {
 		
 		
@@ -119,8 +118,14 @@ public class ReservationController {
 		model.addAttribute("house",house);
 		
 		return "reservations/confirm";
-
-
+	}
+	
+	@PostMapping("/houses/{id}/reservations/create")
+	public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm) {
+		
+		reservationService.create(reservationRegisterForm);
+		
+		return "redirect:/reservations?reserved";
 		
 		
 	}
